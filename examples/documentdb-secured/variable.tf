@@ -1,13 +1,13 @@
 variable "skip_final_snapshot" {
   type        = bool
-  description = "Determines whether a final DB snapshot is created before the DB cluster is deleted."
   default     = false
+  description = "Determines whether a final DB snapshot is created before the DB cluster is deleted."
 }
 
 variable "storage_encrypted" {
   type        = bool
-  description = "Specifies whether the DB cluster is encrypted."
   default     = true
+  description = "Specifies whether the DB cluster is encrypted."
 }
 
 variable "instance_class" {
