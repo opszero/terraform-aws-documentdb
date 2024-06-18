@@ -1,7 +1,7 @@
 variable "enabled" {
   type        = bool
-  description = "Set to false to prevent the module from creating any resources."
   default     = true
+  description = "Set to false to prevent the module from creating any resources."
 }
 
 variable "attributes" {
@@ -68,8 +68,8 @@ variable "enable_key_rotation" {
 variable "customer_master_key_spec" {
   type        = string
   default     = "SYMMETRIC_DEFAULT"
-  description = "Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC_DEFAULT, RSA_2048, RSA_3072, RSA_4096, ECC_NIST_P256, ECC_NIST_P384, ECC_NIST_P521, or ECC_SECG_P256K1. Defaults to SYMMETRIC_DEFAULT."
   sensitive   = true
+  description = "Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC_DEFAULT, RSA_2048, RSA_3072, RSA_4096, ECC_NIST_P256, ECC_NIST_P384, ECC_NIST_P521, or ECC_SECG_P256K1. Defaults to SYMMETRIC_DEFAULT."
 }
 
 variable "alias" {
@@ -78,13 +78,11 @@ variable "alias" {
   description = "The display name of the alias. The name must start with the word `alias` followed by a forward slash."
 }
 
-############################################security Group ##########################
-
 variable "vpc_id" {
   type        = string
   default     = ""
-  description = "The ID of the VPC that the instance security group belongs to."
   sensitive   = true
+  description = "The ID of the VPC that the instance security group belongs to."
 }
 
 variable "allowed_ip" {
@@ -177,60 +175,58 @@ variable "ssh_sg_ingress_description" {
 }
 
 variable "egress_ipv4_from_port" {
-  description = "Egress Start port (or ICMP type number if protocol is icmp or icmpv6)."
   type        = number
   default     = 0
+  description = "Egress Start port (or ICMP type number if protocol is icmp or icmpv6)."
 }
 
 variable "egress_ipv4_to_port" {
-  description = "Egress end port (or ICMP code if protocol is icmp)."
   type        = number
   default     = 65535
+  description = "Egress end port (or ICMP code if protocol is icmp)."
 }
 
 variable "egress_ipv4_protocol" {
-  description = "Protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
   type        = string
   default     = "-1"
+  description = "Protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
 }
 
 variable "egress_ipv4_cidr_block" {
-  description = " List of CIDR blocks. Cannot be specified with source_security_group_id or self."
   type        = list(string)
   default     = ["0.0.0.0/0"]
+  description = " List of CIDR blocks. Cannot be specified with source_security_group_id or self."
 }
 
 variable "egress_ipv6_from_port" {
-  description = "Egress Start port (or ICMP type number if protocol is icmp or icmpv6)."
   type        = number
   default     = 0
+  description = "Egress Start port (or ICMP type number if protocol is icmp or icmpv6)."
 }
 
 variable "egress_ipv6_to_port" {
-  description = "Egress end port (or ICMP code if protocol is icmp)."
   type        = number
   default     = 65535
+  description = "Egress end port (or ICMP code if protocol is icmp)."
 }
 
 variable "egress_ipv6_protocol" {
-  description = "Protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
   type        = string
   default     = "-1"
+  description = "Protocol. If not icmp, icmpv6, tcp, udp, or all use the protocol number"
 }
 
 variable "egress_ipv6_cidr_block" {
-  description = " List of CIDR blocks. Cannot be specified with source_security_group_id or self."
   type        = list(string)
   default     = ["::/0"]
+  description = " List of CIDR blocks. Cannot be specified with source_security_group_id or self."
 }
-##-----------------------------------------------------------------------------
-## AWS Document DB Variables.
-##-----------------------------------------------------------------------------
+
 
 variable "master_password" {
-  description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
   type        = string
   default     = ""
+  description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
 }
 
 variable "database_name" {
@@ -258,26 +254,26 @@ variable "preferred_backup_window" {
 
 variable "skip_final_snapshot" {
   type        = bool
-  description = "Determines whether a final DB snapshot is created before the DB cluster is deleted."
   default     = false
+  description = "Determines whether a final DB snapshot is created before the DB cluster is deleted."
 }
 
 variable "apply_immediately" {
   type        = bool
-  description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window."
   default     = true
+  description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window."
 }
 
 variable "storage_encrypted" {
   type        = bool
-  description = "Specifies whether the DB cluster is encrypted."
   default     = true
+  description = "Specifies whether the DB cluster is encrypted."
 }
 
 variable "kms_key_id" {
   type        = string
-  description = "The ARN for the KMS encryption key. When specifying `kms_key_id`, `storage_encrypted` needs to be set to `true`."
   default     = ""
+  description = "The ARN for the KMS encryption key. When specifying `kms_key_id`, `storage_encrypted` needs to be set to `true`."
 }
 
 variable "snapshot_identifier" {
@@ -287,9 +283,9 @@ variable "snapshot_identifier" {
 }
 
 variable "subnet_list" {
-  description = "List of subnet IDs database instances should deploy into."
   type        = list(string)
   default     = [""]
+  description = "List of subnet IDs database instances should deploy into."
 }
 
 variable "cluster_family" {
@@ -297,7 +293,6 @@ variable "cluster_family" {
   default     = "docdb5.0"
   description = "The family of the DocumentDB cluster parameter group. For more details, see https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-parameter-group-create.html ."
 }
-
 
 variable "engine" {
   type        = string
@@ -313,8 +308,8 @@ variable "engine_version" {
 
 variable "enabled_cloudwatch_logs_exports" {
   type        = list(string)
-  description = "List of log types to export to cloudwatch. The following log types are supported: audit, error, general, slowquery."
   default     = ["audit", "profiler"]
+  description = "List of log types to export to cloudwatch. The following log types are supported: audit, error, general, slowquery."
 }
 
 variable "instance_class" {
@@ -345,9 +340,6 @@ variable "parameters" {
   description = "A list of DocumentDB parameters to apply. Setting parameters to system default values may show a difference on imported resources."
 }
 
-##-----------------------------------------------------------------------------
-## Labels variables
-##-----------------------------------------------------------------------------
 
 variable "enable" {
   type        = bool

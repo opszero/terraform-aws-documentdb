@@ -1,6 +1,3 @@
-##-----------------------------------------------------------------------------
-## label Module.
-##-----------------------------------------------------------------------------
 locals {
   label_order_defaults = {
     label_order = ["environment", "name"]
@@ -13,7 +10,6 @@ locals {
 
   label_order = length(var.label_order) > 0 ? var.label_order : local.label_order_defaults.label_order
 
-  # run loop for label order and set in value.
   id_labels   = [for l in local.label_order : local.id_context[l] if length(local.id_context[l]) > 0 && var.enabled]
   id          = var.enabled ? lower(join(var.delimiter, local.id_labels, var.attributes)) : ""
   name        = var.enabled ? lower(format("%v", var.name)) : ""
@@ -23,7 +19,6 @@ locals {
   attributes  = var.enabled ? lower(format("%v", join(var.delimiter, compact(var.attributes)))) : ""
 
   tags_context = {
-    # For AWS we need `Name` to be disambiguated sine it has a special meaning
     name        = local.id
     environment = local.environment
     managedby   = local.managedby
@@ -31,8 +26,7 @@ locals {
   }
 
   generated_tags = { for l in keys(local.tags_context) : title(l) => local.tags_context[l] if length(local.tags_context[l]) > 0 }
-
-  tags = var.enabled ? merge(local.generated_tags, var.extra_tags) : null
+  tags           = var.enabled ? merge(local.generated_tags, var.extra_tags) : null
 }
 
 resource "aws_security_group" "default" {
@@ -46,9 +40,6 @@ resource "aws_security_group" "default" {
   }
 }
 
-##----------------------------------------------------------------------------------
-## Below resources will create SECURITY-GROUP-RULE and its components.
-##----------------------------------------------------------------------------------
 #tfsec:ignore:aws-ec2-no-public-egress-sgr
 resource "aws_security_group_rule" "egress_ipv4" {
   count             = (var.enable && var.enable_security_group && length(var.sg_ids) < 1 && var.is_external == false && var.egress_rule) ? 1 : 0
@@ -60,6 +51,7 @@ resource "aws_security_group_rule" "egress_ipv4" {
   cidr_blocks       = var.egress_ipv4_cidr_block
   security_group_id = join("", aws_security_group.default[*].id)
 }
+
 #tfsec:ignore:aws-ec2-no-public-egress-sgr
 resource "aws_security_group_rule" "egress_ipv6" {
   count             = var.enable && var.enable_security_group && length(var.sg_ids) < 1 && var.is_external == false && var.egress_rule ? 1 : 0
@@ -71,6 +63,7 @@ resource "aws_security_group_rule" "egress_ipv6" {
   ipv6_cidr_blocks  = var.egress_ipv6_cidr_block
   security_group_id = join("", aws_security_group.default[*].id)
 }
+
 #tfsec:ignore:aws-ec2-no-public-ingress-sgr
 resource "aws_security_group_rule" "ssh_ingress" {
   count             = var.enable && length(var.ssh_allowed_ip) > 0 && length(var.sg_ids) < 1 ? length(compact(var.ssh_allowed_ports)) : 0
@@ -82,6 +75,7 @@ resource "aws_security_group_rule" "ssh_ingress" {
   cidr_blocks       = var.ssh_allowed_ip
   security_group_id = join("", aws_security_group.default[*].id)
 }
+
 #tfsec:ignore:aws-ec2-no-public-ingress-sgr
 resource "aws_security_group_rule" "ingress" {
   count = var.enable && length(var.allowed_ip) > 0 && length(var.sg_ids) < 1 ? length(compact(var.allowed_ports)) : 0
@@ -94,7 +88,6 @@ resource "aws_security_group_rule" "ingress" {
   cidr_blocks       = var.allowed_ip
   security_group_id = join("", aws_security_group.default[*].id)
 }
-
 
 resource "aws_kms_key" "default" {
   count                    = var.enable && var.kms_key_enabled && var.kms_key_id == "" ? 1 : 0
@@ -130,21 +123,11 @@ data "aws_iam_policy_document" "kms" {
 
 }
 
-
-
-##-----------------------------------------------------------------------------
-## Random password genrator
-##-----------------------------------------------------------------------------
-
 resource "random_password" "master" {
   count   = var.enable && length(var.master_password) == 0 ? 1 : 0
   length  = 15
   special = false
 }
-
-##-----------------------------------------------------------------------------
-## AWS Document DB cluster parameter Group.
-##-----------------------------------------------------------------------------
 
 resource "aws_docdb_cluster_parameter_group" "this" {
   count       = var.enable ? 1 : 0
@@ -164,10 +147,7 @@ resource "aws_docdb_cluster_parameter_group" "this" {
   tags = local.tags
 }
 
-##-----------------------------------------------------------------------------
-## AWS Document DB Cluster.
-##-----------------------------------------------------------------------------
-
+#tfsec:ignore:aws-documentdb-encryption-customer-key
 resource "aws_docdb_cluster" "this" {
   count                           = var.enable ? 1 : 0
   cluster_identifier              = var.database_name
@@ -193,10 +173,6 @@ resource "aws_docdb_cluster" "this" {
   depends_on = [aws_docdb_cluster_parameter_group.this]
 }
 
-##-----------------------------------------------------------------------------
-## AWS Document DB instance.
-##-----------------------------------------------------------------------------
-
 resource "aws_docdb_cluster_instance" "this" {
   count              = var.enable ? var.cluster_size : 0
   identifier         = "${var.database_name}-${count.index + 1}"
@@ -207,10 +183,6 @@ resource "aws_docdb_cluster_instance" "this" {
   engine             = var.engine
   ca_cert_identifier = var.ca_cert_identifier
 }
-
-##-----------------------------------------------------------------------------
-## AWS Document DB Subnet Group.
-##-----------------------------------------------------------------------------
 
 resource "aws_docdb_subnet_group" "this" {
   count       = var.enable ? 1 : 0
