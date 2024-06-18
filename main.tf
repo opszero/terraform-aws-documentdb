@@ -147,7 +147,7 @@ resource "aws_docdb_cluster_parameter_group" "this" {
   tags = local.tags
 }
 
-#tfsec:ignore:aws-documentdb-encryption-customer-key
+#defsec:ignore:aws-documentdb-encryption-customer-key
 resource "aws_docdb_cluster" "this" {
   count                           = var.enable ? 1 : 0
   cluster_identifier              = var.database_name
