@@ -147,10 +147,8 @@ resource "aws_docdb_cluster_parameter_group" "this" {
   tags = local.tags
 }
 
-#defsec:ignore:aws-documentdb-encryption-customer-key
 resource "aws_docdb_cluster" "this" {
   count                           = var.enable ? 1 : 0
-  #defsec:ignore:aws-documentdb-encryption-customer-key
   cluster_identifier              = var.database_name
   master_username                 = var.master_username
   master_password                 = length(var.master_password) == 0 ? random_password.master[0].result : var.master_password
