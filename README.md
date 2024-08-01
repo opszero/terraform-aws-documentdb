@@ -1,36 +1,5 @@
 <!-- BEGIN_TF_DOCS -->
 
-# 🚀 Built by opsZero!
-
-<a href="https://opszero.com"><img src="https://opszero.com/wp-content/uploads/2024/07/opsZero_logo_svg.svg" width="300px"/></a>
-
-Since 2016 [opsZero](https://opszero.com) has been providing Kubernetes
-expertise to companies of all sizes on any Cloud. With a focus on AI and
-Compliance we can say we seen it all whether SOC2, HIPAA, PCI-DSS, ITAR,
-FedRAMP, CMMC we have you and your customers covered.
-
-We provide support to organizations in the following ways:
-
-- [Modernize or Migrate to Kubernetes](https://opszero.com/solutions/modernization/)
-- [Cloud Infrastructure with Kubernetes on AWS, Azure, Google Cloud, or Bare Metal](https://opszero.com/solutions/cloud-infrastructure/)
-- [Building AI and Data Pipelines on Kubernetes](https://opszero.com/solutions/ai/)
-- [Optimizing Existing Kubernetes Workloads](https://opszero.com/solutions/optimized-workloads/)
-
-We do this with a high-touch support model where you:
-
-- Get access to us on Slack, Microsoft Teams or Email
-- Get 24/7 coverage of your infrastructure
-- Get an accelerated migration to Kubernetes
-
-Please [schedule a call](https://calendly.com/opszero-llc/discovery) if you need support.
-
-<br/><br/>
-
-<div style="display: block">
-  <img src="https://opszero.com/wp-content/uploads/2024/07/aws-advanced.png" width="150px" />
-  <img src="https://opszero.com/wp-content/uploads/2024/07/AWS-public-sector.png" width="150px" />
-  <img src="https://opszero.com/wp-content/uploads/2024/07/AWS-eks.png" width="150px" />
-</div>
 ## Providers
 
 | Name | Version |
@@ -131,4 +100,35 @@ Please [schedule a call](https://calendly.com/opszero-llc/discovery) if you need
 | <a name="output_master_username"></a> [master\_username](#output\_master\_username) | Username for the master DB user. |
 | <a name="output_reader_endpoint"></a> [reader\_endpoint](#output\_reader\_endpoint) | A read-only endpoint of the DocumentDB cluster, automatically load-balanced across replicas. |
 | <a name="output_writer_endpoint"></a> [writer\_endpoint](#output\_writer\_endpoint) | Endpoint of the DocumentDB cluster. |
+# 🚀 Built by opsZero!
+
+<a href="https://opszero.com"><img src="https://opszero.com/wp-content/uploads/2024/07/opsZero_logo_svg.svg" width="300px"/></a>
+
+Since 2016 [opsZero](https://opszero.com) has been providing Kubernetes
+expertise to companies of all sizes on any Cloud. With a focus on AI and
+Compliance we can say we seen it all whether SOC2, HIPAA, PCI-DSS, ITAR,
+FedRAMP, CMMC we have you and your customers covered.
+
+We provide support to organizations in the following ways:
+
+- [Modernize or Migrate to Kubernetes](https://opszero.com/solutions/modernization/)
+- [Cloud Infrastructure with Kubernetes on AWS, Azure, Google Cloud, or Bare Metal](https://opszero.com/solutions/cloud-infrastructure/)
+- [Building AI and Data Pipelines on Kubernetes](https://opszero.com/solutions/ai/)
+- [Optimizing Existing Kubernetes Workloads](https://opszero.com/solutions/optimized-workloads/)
+
+We do this with a high-touch support model where you:
+
+- Get access to us on Slack, Microsoft Teams or Email
+- Get 24/7 coverage of your infrastructure
+- Get an accelerated migration to Kubernetes
+
+Please [schedule a call](https://calendly.com/opszero-llc/discovery) if you need support.
+
+<br/><br/>
+
+<div style="display: block">
+  <img src="https://opszero.com/wp-content/uploads/2024/07/aws-advanced.png" width="150px" />
+  <img src="https://opszero.com/wp-content/uploads/2024/07/AWS-public-sector.png" width="150px" />
+  <img src="https://opszero.com/wp-content/uploads/2024/07/AWS-eks.png" width="150px" />
+</div>
 <!-- END_TF_DOCS -->
