@@ -1,7 +1,6 @@
-variable "enabled" {
-  type        = bool
-  default     = true
-  description = "Set to false to prevent the module from creating any resources."
+variable "name" {
+  description = "Name of the database."
+  type        = string
 }
 
 variable "attributes" {
@@ -10,16 +9,10 @@ variable "attributes" {
   description = "Additional attributes (e.g. `1`)."
 }
 
-variable "extra_tags" {
+variable "tags" {
   type        = map(string)
   default     = {}
   description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)."
-}
-
-variable "delimiter" {
-  type        = string
-  default     = "-"
-  description = "Delimiter to be used between `organization`, `name`, `environment` and `attributes`."
 }
 
 variable "kms_key_enabled" {
@@ -229,10 +222,7 @@ variable "master_password" {
   description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
 }
 
-variable "database_name" {
-  description = "Name of the database."
-  type        = string
-}
+
 
 variable "master_username" {
   type        = string
@@ -262,18 +252,6 @@ variable "apply_immediately" {
   type        = bool
   default     = true
   description = "Specifies whether any cluster modifications are applied immediately, or during the next maintenance window."
-}
-
-variable "storage_encrypted" {
-  type        = bool
-  default     = true
-  description = "Specifies whether the DB cluster is encrypted."
-}
-
-variable "kms_key_id" {
-  type        = string
-  default     = ""
-  description = "The ARN for the KMS encryption key. When specifying `kms_key_id`, `storage_encrypted` needs to be set to `true`."
 }
 
 variable "snapshot_identifier" {
@@ -338,43 +316,6 @@ variable "parameters" {
   }))
   default     = []
   description = "A list of DocumentDB parameters to apply. Setting parameters to system default values may show a difference on imported resources."
-}
-
-
-variable "enable" {
-  type        = bool
-  default     = true
-  description = "Flag to control the documentDB creation."
-}
-
-variable "name" {
-  type        = string
-  default     = ""
-  description = "Name  (e.g. `app` or `cluster`)."
-}
-
-variable "environment" {
-  type        = string
-  default     = ""
-  description = "Environment (e.g. `prod`, `dev`, `staging`)."
-}
-
-variable "repository" {
-  type        = string
-  default     = "https://github.com/opszero/terraform-aws-documentdb"
-  description = "Terraform current module repo"
-}
-
-variable "label_order" {
-  type        = list(any)
-  default     = []
-  description = "Label order, e.g. `name`,`application`."
-}
-
-variable "managedby" {
-  type        = string
-  default     = "hello@opszero.com"
-  description = "ManagedBy, eg 'opszero'"
 }
 
 variable "deletion_protection" {
