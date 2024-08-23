@@ -129,7 +129,7 @@ resource "aws_docdb_cluster" "this" {
 resource "aws_docdb_cluster_instance" "this" {
   count              = var.cluster_size
   identifier         = "${var.name}-${count.index + 1}"
-  cluster_identifier = aws_docdb_cluster.this[0].id
+  cluster_identifier = aws_docdb_cluster.this.id
   apply_immediately  = var.apply_immediately
   instance_class     = var.instance_class
   tags               = local.tags
