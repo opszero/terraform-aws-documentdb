@@ -116,8 +116,8 @@ resource "aws_docdb_cluster" "this" {
   storage_encrypted               = true
   snapshot_identifier             = var.snapshot_identifier
   vpc_security_group_ids          = length(var.sg_ids) < 1 ? aws_security_group.default[*].id : var.sg_ids
-  db_subnet_group_name            = aws_docdb_subnet_group.this[0].name
-  db_cluster_parameter_group_name = aws_docdb_cluster_parameter_group.this[0].name
+  db_subnet_group_name            = aws_docdb_subnet_group.this.name
+  db_cluster_parameter_group_name = aws_docdb_cluster_parameter_group.this.name
   engine                          = var.engine
   engine_version                  = var.engine_version
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
