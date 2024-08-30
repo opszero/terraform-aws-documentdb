@@ -138,7 +138,7 @@ resource "aws_docdb_cluster_instance" "this" {
 }
 
 resource "aws_docdb_subnet_group" "this" {
-  name        = var.name
+  name        = "${var.name}-docdb"
   description = "Allowed subnets for DB cluster instances."
   subnet_ids  = var.subnet_list
   tags        = local.tags
