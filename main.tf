@@ -63,23 +63,6 @@ resource "aws_security_group_rule" "ingress" {
   security_group_id = join("", aws_security_group.default[*].id)
 }
 
-
-
-data "aws_iam_policy_document" "kms" {
-  version = "2012-10-17"
-  statement {
-    sid    = "Enable IAM User Permissions"
-    effect = "Allow"
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-    actions   = ["kms:*"]
-    resources = ["*"]
-  }
-
-}
-
 resource "random_password" "master" {
   count   = length(var.master_password) == 0 ? 1 : 0
   length  = 15
@@ -103,6 +86,7 @@ resource "aws_docdb_cluster_parameter_group" "this" {
   tags = local.tags
 }
 
+#tfsec:ignore:aws-documentdb-encryption-customer-key
 resource "aws_docdb_cluster" "this" {
   cluster_identifier              = var.name
   master_username                 = var.master_username
@@ -113,7 +97,7 @@ resource "aws_docdb_cluster" "this" {
   skip_final_snapshot             = var.skip_final_snapshot
   apply_immediately               = var.apply_immediately
   deletion_protection             = var.deletion_protection
-  storage_encrypted               = true
+  storage_encrypted               = var.storage_encrypted
   snapshot_identifier             = var.snapshot_identifier
   vpc_security_group_ids          = length(var.sg_ids) < 1 ? aws_security_group.default[*].id : var.sg_ids
   db_subnet_group_name            = aws_docdb_subnet_group.this.name
@@ -121,11 +105,16 @@ resource "aws_docdb_cluster" "this" {
   engine                          = var.engine
   engine_version                  = var.engine_version
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
-  tags                            = local.tags
-
+  tags = merge(
+    local.tags,
+    {
+      "Name" = local.name
+    }
+  )
   depends_on = [aws_docdb_cluster_parameter_group.this]
 }
 
+#tfsec:ignore:aws-documentdb-encryption-customer-key
 resource "aws_docdb_cluster_instance" "this" {
   count              = var.cluster_size
   identifier         = "${var.name}-${count.index + 1}"
@@ -142,4 +131,5 @@ resource "aws_docdb_subnet_group" "this" {
   description = "Allowed subnets for DB cluster instances."
   subnet_ids  = var.subnet_list
   tags        = local.tags
+
 }
