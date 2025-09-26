@@ -1,3 +1,81 @@
+# Terraform-aws-documentdb
+
+# Terraform AWS Cloud DocumentDB Module
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Usage](#usage)
+- [Examples](#Examples)
+- [Author](#Author)
+- [License](#license)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+
+## Introduction
+This Terraform module creates an AWS documentdb along with additional configuration options.
+## Usage
+To use this module, you can include it in your Terraform configuration. Here's an example of how to use it:
+
+## Examples
+
+## Example: documentdb-secured
+
+```hcl
+module "documentdb-secured" {
+  source            = "git::https://github.com/opszero/terraform-aws-documentdb.git.git?ref=v1.0.1"
+  name              = "documentdb"
+  vpc_id            = module.vpc.vpc_id
+  ssh_allowed_ip    = ["0.0.0.0/0"]
+  ssh_allowed_ports = [27017]
+
+  subnet_list             = module.subnet.public_subnet_id
+  skip_final_snapshot     = var.skip_final_snapshot
+  storage_encrypted       = var.storage_encrypted
+  instance_class          = var.instance_class
+  cluster_family          = "docdb5.0"
+  cluster_size            = var.cluster_size
+  deletion_protection     = true
+  preferred_backup_window = "07:00-07:30"
+  ca_cert_identifier      = "rds-ca-rsa2048-g1"
+  parameters = [
+    {
+      apply_method = "immediate"
+      name         = "tls"
+      value        = "enabled"
+    }
+  ]
+}
+```
+
+## Example: documentdb-simple
+
+```hcl
+module "documentdb-simple" {
+  source            = "git::https://github.com/opszero/terraform-aws-documentdb.git.git?ref=v1.0.1"
+  name              = "dev"
+
+  vpc_id            = module.vpc.vpc_id
+  ssh_allowed_ip    = ["0.0.0.0/0"]
+  ssh_allowed_ports = [27017]
+
+  subnet_list         = module.subnet.public_subnet_id
+  master_username     = "test"
+  master_password     = var.master_password
+  instance_class      = var.instance_class
+  cluster_size        = var.cluster_size
+  deletion_protection = false
+}
+```
+
+## Examples
+For detailed examples on how to use this module, please refer to the [Examples](https://github.com/opszero/terraform-aws-documentdb/tree/main/examples) directory within this repository.
+
+## Author
+Your Name Replace **MIT** and **opsZero** with the appropriate license and your information. Feel free to expand this README with additional details or usage instructions as needed for your specific use case.
+
+## License
+This project is licensed under the **MIT** License - see the [LICENSE](https://github.com/opszero/terraform-aws-documentdb/blob/main/LICENSE) file for details.
+
 <!-- BEGIN_TF_DOCS -->
 
 ## Providers
